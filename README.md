@@ -1,54 +1,106 @@
-# Flutree
+# VLAG
 
-[![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat-square&logo=Flutter&logoColor=white)](https://flutter.dev/)
-[![Firebase](https://img.shields.io/badge/Firebase-FFA000?style=flat-square&logo=Firebase&logoColor=white)](https://firebase.google.com/)
-[![Works with Android](https://img.shields.io/badge/Works_with-Android-green?style=flat-square)](https://play.google.com/store/apps/details?id=com.iqmal.linktreeflutter&utm_source=Github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
-[![Web](https://img.shields.io/badge/Available_on-Web-blue?style=flat-square)](https://flutreecreate.web.app/#/)
-![Maintenance](https://img.shields.io/maintenance/yes/2022?style=flat-square)
-![Installs](https://img.shields.io/badge/installs-54k+-orange)
-[![Twitter Follow](https://img.shields.io/twitter/follow/iqfareez?label=Follow&style=social)](https://twitter.com/iqfareez)
+VLAG is a Flutter app for creating a shareable profile/links page (link-in-bio). It uses Firebase for authentication and data storage, and includes optional backend utilities for web hosting and profile assets.
 
-Your personalized social cards. Put your social media link in one place. Easy peasy!
+**Web:** https://vlagit.com  
+**Android package:** `com.VLagit.VLag`
 
-![Flutree banner](https://imgur.com/qvr10Xn.png)
+## Features
 
-[[Demo profile](https://flutree.web.app/NWfLo)]
+- Profile builder with avatar, bio, and links
+- Shareable profile URL + QR code
+- Firebase Authentication (Google/Apple/Facebook where configured)
+- Firestore + Storage for user data and media
+- Optional Bitly link shortening
+- Optional Google Mobile Ads (Android/iOS)
 
-## Get the app
+## Tech Stack
 
-### Download on Google Play Store
+- Flutter (Dart)
+- Firebase: Auth, Firestore, Storage, Analytics, Dynamic Links
+- Node.js (Firebase Functions) in `functions/`
+- PHP utilities for cPanel hosting in `server/`
 
-<a href='https://play.google.com/store/apps/details?id=com.iqmal.linktreeflutter&utm_source=Github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=120/></a>
+## Repository Layout
 
-### For non-Android users, Flutree also runs on the web
+- `lib/` Flutter application source
+- `web/` Flutter web assets (for hosting the web build)
+- `functions/` Firebase Cloud Functions
+- `server/` cPanel/PHP backend helpers (uploads, simple endpoints)
+- `scripts/` build/deploy scripts
 
-- [flutreecreate.web.app](https://flutreecreate.web.app)
+## Getting Started
 
-## Getting started
+### Prerequisites
 
-Note: This repo hosts both editor (flutree main app) and viewer part (flutree.web.app). For the editor, it lives in this branch (v4). For the **viewer** part, it lives in [web](https://github.com/iqfareez/flutree/tree/web) branch.
+- Flutter SDK (Dart >= 3.0)
+- A Firebase project (Auth + Firestore + Storage enabled)
+- Node.js (only if you use `functions/`)
 
-1. Setup Flutter (if you haven't already)
-1. Clone this project and open with your code editor.
-1. Create `PRIVATE.dart` in the lib folder. Copy and paste the content just like the example below. For the admob part, you can create a new app in admob or use the test ad unit (https://developers.google.com/admob/android/test-ads#demo_ad_units). Also, register Bitly and get their API token.
-   ```dart
-   const kAdmobAppId = 'ca-app-pub-xxxxxxxxxxxxxxxxxxxxxxx';
-   const kShareBannerUnitId = 'ca-app-pub-189637xxxxxxxx/3206521140';
-   const kEditPageBannerUnitId = 'ca-app-pub-189637xxxxxxxx/7250471616';
-   const kInterstitialShareUnitId = 'ca-app-pub-189637xxxxxxxx/1721617881';
-   const kInterstitialPreviewUnitId = 'ca-app-pub-189637xxxxxxxx/2819569063';
-   const kBitlyApiToken = '85e8df908612276xxxxxxxxxxxxx36ee3d40e31';
-   ```
-1. Create a project on **Firebase console**, enable Authentication & Firestorte.
-1. Run `flutterfire configure`. Details [here](https://firebase.google.com/docs/flutter/setup?platform=android).
-1. Run `flutter run --web-renderer html`\*
+### 1) Install dependencies
 
-\* Images won't load on **canvaskit**.
+```bash
+flutter pub get
+```
 
-## Devlog
+### 2) Create `lib/PRIVATE.dart`
 
-- [Part 1](https://www.instagram.com/s/aGlnaGxpZ2h0OjE4MTUzMDA3Njg0MTgyODA3)
-- [Part 2](https://www.instagram.com/s/aGlnaGxpZ2h0OjE3ODg1MzE2ODMzMjE5MDg5)
+This repo expects a private file for tokens/IDs. Create `lib/PRIVATE.dart`:
 
-:star::star::star::star::star:
-"# VLAG" 
+```dart
+const kAdmobAppId = 'ca-app-pub-xxxxxxxxxxxxxxxxxxxxxxx';
+const kShareBannerUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
+const kEditPageBannerUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
+const kInterstitialShareUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
+const kInterstitialPreviewUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
+const kBitlyApiToken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+```
+
+If you are not using Ads or Bitly, you can still add placeholder values to compile.
+
+### 3) Configure Firebase
+
+```bash
+flutterfire configure
+```
+
+### 4) Run the app
+
+```bash
+flutter run
+```
+
+Run on web (Chrome):
+
+```bash
+flutter run -d chrome
+```
+
+## Build & Deploy
+
+Build web:
+
+```bash
+flutter build web
+```
+
+Deploy with Firebase Hosting (if configured):
+
+```bash
+firebase deploy --only hosting
+```
+
+For cPanel deployment and domain setup, see [CPANEL_SETUP_GUIDE.md](CPANEL_SETUP_GUIDE.md) and [TROUBLESHOOTING_DOMAIN.md](TROUBLESHOOTING_DOMAIN.md).
+
+## Notes
+
+- The base URLs used by the app are defined in [app_config.dart](lib/config/app_config.dart).
+- Do not commit `lib/PRIVATE.dart` or any real API tokens.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
+
+## Credits
+
+This codebase is based on the open-source Flutree project and has been customized/rebranded for VLagIt.
