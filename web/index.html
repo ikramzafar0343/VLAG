@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+
+  <!-- Primary Meta Tags -->
+  <title>VLag Create - A place for all of your social links</title>
+  <meta name="title" content="VLag - A place for all of your social links">
+  <meta name="description"
+    content="Let your audiences find you in one place. VLag is an app that let you create, manage, publish a colourful links page to the world! ">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vlagit.com/">
+  <meta property="og:title" content="VLag - A place for all of your social links">
+  <meta property="og:description" content="Let your audiences find you in one place. VLag is an app that let you create, manage, publish a colourful links page to the world!">
+  <meta property="og:image" content="https://vlagit.com/static/vlag-meta.png">
+  <meta property="og:site_name" content="VLag">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://vlagit.com/">
+  <meta property="twitter:title" content="VLag - A place for all of your social links">
+  <meta property="twitter:description"
+    content="Let your audiences find you in one place. VLag is an app that let you create, manage, publish a colourful links page to the world!">
+  <meta property="twitter:image" content="https://vlagit.com/static/vlag-meta.png">
+
+  <!-- Google Sign-In client ID for web -->
+  <!-- https://github.com/flutter/plugins/blob/master/packages/google_sign_in/google_sign_in_web/README.md#web-integration -->
+  <meta name="google-signin-client_id"
+    content="385807044061-o8aupgo6sirg8624nho36r451p4s14vg.apps.googleusercontent.com">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="VLag">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/png" href="favicon.png" />
+
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Dynamic Meta Tags Script - Updates OG tags based on URL for rich link previews -->
+  <script>
+    (function() {
+      // Get profile code from URL path (e.g., vlagit.com/ABC12)
+      const path = window.location.pathname;
+      const profileCodeMatch = path.match(/^\/([A-Za-z0-9]{5})$/);
+      
+      if (profileCodeMatch) {
+        const profileCode = profileCodeMatch[1];
+        const profileUrl = 'https://vlagit.com/' + profileCode;
+        
+        // Fetch profile data from Firestore REST API
+        // Note: This requires Firestore REST API or a backend endpoint
+        // For now, we'll update meta tags dynamically when Flutter loads
+        // The Flutter app will update these tags properly
+        
+        // Update URL immediately
+        updateMetaTag('og:url', profileUrl);
+        updateMetaTag('twitter:url', profileUrl);
+      }
+      
+      function updateMetaTag(property, content) {
+        let meta = document.querySelector('meta[property="' + property + '"]');
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.setAttribute('property', property);
+          document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <!-- 
+    Firebase is initialized via FlutterFire in Dart code (main.dart).
+    No JavaScript SDK initialization needed here - FlutterFire handles it automatically.
+  -->
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
+
+</html>

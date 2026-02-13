@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "build/web",
+    "site": "flutreecreate",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/:profileCode([A-Za-z0-9]{5})",
+        "function": "serveProfilePage"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "functions": {
+    "source": "functions"
+  }
+}

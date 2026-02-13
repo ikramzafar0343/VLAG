@@ -1,0 +1,25 @@
+allprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            def android = project.android
+            if (android.namespace == null) {
+                def manifestFile = project.file("src/main/AndroidManifest.xml")
+                if (manifestFile.exists()) {
+                    try {
+                        def manifest = new XmlSlurper().parse(manifestFile)
+                        def packageName = manifest.@package?.text()
+                        if (packageName) {
+                            android.namespace = packageName
+                        } else {
+                            android.namespace = "io.flutter.plugins.${project.name.replace('-', '_')}"
+                        }
+                    } catch (Exception e) {
+                        android.namespace = "io.flutter.plugins.${project.name.replace('-', '_')}"
+                    }
+                } else {
+                    android.namespace = "io.flutter.plugins.${project.name.replace('-', '_')}"
+                }
+            }
+        }
+    }
+}
