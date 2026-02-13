@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../../PRIVATE.dart';
+import '../../config/secrets.dart';
 import '../../constants.dart';
 import 'preview_app_page.dart';
 
@@ -20,6 +20,7 @@ class _PreviewPageState extends State<PreviewPage> {
 
   void createExitAd() {
     if (kIsWeb) return; // Ads not supported on web
+    if (kInterstitialPreviewUnitId.isEmpty) return;
     InterstitialAd.load(
         adUnitId: kInterstitialPreviewUnitId,
         adLoadCallback: InterstitialAdLoadCallback(
@@ -81,6 +82,7 @@ class _PreviewPageState extends State<PreviewPage> {
     if (_exitAd == null) {
       print('Warning: attempt to show interstitial before loaded.');
       Navigator.pop(context);
+      return;
     }
     _exitAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (InterstitialAd ad) {

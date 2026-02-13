@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../PRIVATE.dart';
+import '../config/secrets.dart';
 import '../model/bitly_click_summary_model.dart';
 import '../model/bitly_shorten_model.dart';
 
@@ -15,6 +15,12 @@ const int _statusCreated = 201;
 
 class BitlyApi {
   static Future<BitlyShortenModel> shorten({String? url}) async {
+    if (kBitlyApiToken.isEmpty) {
+      const errMessage =
+          'Bitly API token is not configured. Set BITLY_API_TOKEN via --dart-define.';
+      Fluttertoast.showToast(msg: errMessage);
+      throw errMessage;
+    }
     var jsonBody = {
       "long_url": url,
       "domain": "bit.ly",
@@ -42,6 +48,12 @@ class BitlyApi {
   }
 
   static Future<BitlyClickSummaryModel> clickSummary({String? url}) async {
+    if (kBitlyApiToken.isEmpty) {
+      const errMessage =
+          'Bitly API token is not configured. Set BITLY_API_TOKEN via --dart-define.';
+      Fluttertoast.showToast(msg: errMessage);
+      throw errMessage;
+    }
     var apiResponse = await Dio().get('$authority/bitlinks/$url/clicks/summary',
         options: Options(headers: {'Authorization': 'Bearer $kBitlyApiToken'}));
     switch (apiResponse.statusCode) {

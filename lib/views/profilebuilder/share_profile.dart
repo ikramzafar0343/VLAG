@@ -14,7 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../PRIVATE.dart';
+import '../../config/secrets.dart';
 import '../../constants.dart';
 import '../../model/my_user.dart';
 import '../../utils/copy_link.dart';
@@ -51,6 +51,7 @@ class _ShareProfileState extends State<ShareProfile> {
 
   void _createPotraitBannerAd() {
     if (kIsWeb) return; // Ads not supported on web
+    if (kShareBannerUnitId.isEmpty) return;
     _bannerAdPotrait = BannerAd(
       adUnitId: kShareBannerUnitId,
       size: AdSize.largeBanner,
@@ -75,6 +76,7 @@ class _ShareProfileState extends State<ShareProfile> {
 
   void _createLandscapeBannerAd() {
     if (kIsWeb) return; // Ads not supported on web
+    if (kShareBannerUnitId.isEmpty) return;
     _bannerAdLandscape = BannerAd(
       adUnitId: kShareBannerUnitId,
       size: AdSize.banner,

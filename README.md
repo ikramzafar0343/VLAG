@@ -43,20 +43,27 @@ VLAG is a Flutter app for creating a shareable profile/links page (link-in-bio).
 flutter pub get
 ```
 
-### 2) Create `lib/PRIVATE.dart`
+### 2) Configure secrets (optional)
 
-This repo expects a private file for tokens/IDs. Create `lib/PRIVATE.dart`:
+This project reads tokens/IDs via compile-time environment variables in [secrets.dart](lib/config/secrets.dart) using `--dart-define`.
 
-```dart
-const kAdmobAppId = 'ca-app-pub-xxxxxxxxxxxxxxxxxxxxxxx';
-const kShareBannerUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
-const kEditPageBannerUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
-const kInterstitialShareUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
-const kInterstitialPreviewUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx';
-const kBitlyApiToken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+Bitly (optional):
+
+```bash
+flutter run --dart-define=BITLY_API_TOKEN=YOUR_TOKEN
 ```
 
-If you are not using Ads or Bitly, you can still add placeholder values to compile.
+AdMob (optional, Android/iOS only):
+
+```bash
+flutter run --dart-define=ADMOB_APP_ID=ca-app-pub-xxxxxxxxxxxxxxxxxxxxxxx \
+  --dart-define=ADMOB_SHARE_BANNER_UNIT_ID=ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx \
+  --dart-define=ADMOB_EDIT_PAGE_BANNER_UNIT_ID=ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx \
+  --dart-define=ADMOB_INTERSTITIAL_SHARE_UNIT_ID=ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx \
+  --dart-define=ADMOB_INTERSTITIAL_PREVIEW_UNIT_ID=ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx
+```
+
+If you don’t provide these values, Bitly/Ads features stay disabled (the app still runs).
 
 ### 3) Configure Firebase
 
@@ -95,7 +102,7 @@ For cPanel deployment and domain setup, see [CPANEL_SETUP_GUIDE.md](CPANEL_SETUP
 ## Notes
 
 - The base URLs used by the app are defined in [app_config.dart](lib/config/app_config.dart).
-- Do not commit `lib/PRIVATE.dart` or any real API tokens.
+- Never hardcode or commit real tokens/IDs. Use `--dart-define` for local and CI builds.
 
 ## License
 
